@@ -2,39 +2,38 @@
 <html>
 <head>
     <link rel="stylesheet" href="./styles.css">
-    <title>BMC Remedy Redirect</title>
+    <title>YouTube Video Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon: Simple BMC-inspired blue square with "R" -->
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABwAAYAAAAAAqACAAQAAAABAAAAQKADAAQAAAABAAAAIAAAAADmNto9AAAAgUlEQVRYCe3QMQrAIBAF0Pu0gY4gYZG2oCkE/QS9iY4gYZF2QghCwv9AwmLmgVOBW4HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB20D8sJ3XJDiG3kAAAAASUVORK5CYII=">
+    <!-- YouTube-inspired favicon (red play button) -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABwAAYAAAAAAqACAAQAAAABAAAAQKADAAQAAAABAAAAIAAAAADmNto9AAAAk0lEQVRYCe3QsQ3AIAwF0Pu0gQ4gYZF2oCkE/QS9iY4gYZF2QghCwv9AwmLmgVOBO4EbgTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO4E7gTuBO7Ad1wnfckOIfwAAAABJRU5ErkJggg==">
 </head>
 <body>
     <div id="error-message">
         <div id="redirect-box">
-            <div class="remedy-header">
-                <span class="remedy-logo">BMC Remedy</span>
-                <span class="remedy-title">Service Management</span>
+            <div class="youtube-header">
+                <span class="youtube-logo">YouTube</span>
             </div>
-            <div class="remedy-content">
-                <h2>Redirecting in Progress...</h2>
-                <p>Please wait while we process your request.</p>
+            <div class="youtube-content">
+                <h2>Searching for your video...</h2>
+                <p>Please wait while we find your content.</p>
                 <div class="progress-container">
                     <div id="progress-bar"></div>
                 </div>
                 <p id="progress-percentage">0%</p>
-                <p class="instruction"><a href="#" id="click-link">Click here or press <strong>Enter</strong> key if the redirect is delayed.</a></p>
+                <p class="instruction"><a href="#" id="click-link">Click here or press <strong>Enter</strong> if the search is delayed.</a></p>
                 <div class="spinner"></div>
             </div>
         </div>
         <div id="error-box" class="hidden">
-            <div class="remedy-header remedy-error-header">
-                <span class="remedy-logo">BMC Remedy</span>
-                <span class="remedy-title">Service Management</span>
+            <div class="youtube-header youtube-error-header">
+                <span class="youtube-logo">YouTube</span>
             </div>
-            <div class="remedy-content">
+            <div class="youtube-content">
                 <span class="error-cross">✖</span>
-                <h2>Redirect Error</h2>
-                <p>Unable to complete the redirect process.</p>
-                <p class="instruction"><a href="#" id="retry-link">Click here or press <strong>Enter</strong> key to try again.</a></p>
+                <h2>Couldn’t find your video</h2>
+                <p>Try searching for a video below:</p>
+                <input type="text" id="incident-input" placeholder="Search for a video">
+                <p class="instruction"><a href="#" id="retry-link">Click here or press <strong>Enter</strong> to retry.</a></p>
             </div>
         </div>
     </div>
