@@ -3,7 +3,9 @@
 <head>
     <link rel="stylesheet" href="./styles.css">
     <title>BMC Remedy Redirect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- For mobile compatibility -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon: Simple BMC-inspired blue square with "R" -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABwAAYAAAAAAqACAAQAAAABAAAAQKADAAQAAAABAAAAIAAAAADmNto9AAAAgUlEQVRYCe3QMQrAIBAF0Pu0gY4gYZG2oCkE/QS9iY4gYZF2QghCwv9AwmLmgVOBW4HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB24HbgduB20D8sJ3XJDiG3kAAAAASUVORK5CYII=">
 </head>
 <body>
     <div id="error-message">
@@ -23,6 +25,19 @@
                 <div class="spinner"></div>
             </div>
         </div>
+        <div id="error-box" class="hidden">
+            <div class="remedy-header remedy-error-header">
+                <span class="remedy-logo">BMC Remedy</span>
+                <span class="remedy-title">Service Management</span>
+            </div>
+            <div class="remedy-content">
+                <span class="error-cross">✖</span>
+                <h2>Redirect Error</h2>
+                <p>Unable to complete the redirect process.</p>
+                <p class="instruction"><a href="#" id="retry-link">Click here or press <strong>Enter</strong> key to try again.</a></p>
+            </div>
+        </div>
+    </div>
         <div id="error-box" class="hidden">
             <div class="remedy-header remedy-error-header">
                 <span class="remedy-logo">BMC Remedy</span>
