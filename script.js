@@ -87,6 +87,11 @@ window.addEventListener('load', function() {
         playVideo();
     });
 
+    // Handle mouse wheel scroll
+    document.body.addEventListener('wheel', function(event) {
+        playVideo();
+    });
+
     // Handle any key press
     document.body.addEventListener('keydown', function(event) {
         playVideo();
