@@ -2,10 +2,10 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: 'Roboto', 'Arial', sans-serif; /* YouTube’s font */
+    font-family: 'Roboto', 'Arial', sans-serif;
     -webkit-user-select: none;
     user-select: none;
-    touch-action: manipulation;
+    touch-action: none; /* Disable all touch actions except necessary */
 }
 
 video {
@@ -15,6 +15,15 @@ video {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
+    pointer-events: none; /* Prevent clicks on video */
+}
+
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video:fullscreen {
+    controls: none;
 }
 
 #error-message {
@@ -23,7 +32,7 @@ video {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #f1f1f1; /* YouTube light gray */
+    background-color: #f1f1f1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +50,7 @@ video {
 }
 
 .youtube-header {
-    background-color: #ff0000; /* YouTube red */
+    background-color: #ff0000;
     color: #fff;
     padding: 10px 15px;
     display: flex;
@@ -50,7 +59,7 @@ video {
 }
 
 .youtube-error-header {
-    background-color: #606060; /* YouTube dark gray for error */
+    background-color: #606060;
 }
 
 .youtube-logo {
@@ -64,13 +73,13 @@ video {
 }
 
 .youtube-content h2 {
-    color: #030303; /* YouTube near-black */
+    color: #030303;
     font-size: 20px;
     margin-bottom: 10px;
 }
 
 .youtube-content p {
-    color: #606060; /* YouTube gray */
+    color: #606060;
     font-size: 14px;
     margin: 5px 0;
 }
@@ -86,7 +95,7 @@ video {
 #progress-bar {
     width: 0;
     height: 100%;
-    background: linear-gradient(to right, #ff0000, #cc0000); /* YouTube red gradient */
+    background: linear-gradient(to right, #ff6666, #cc0000);
     border-radius: 4px;
     transition: width 0.3s ease;
 }
@@ -103,7 +112,7 @@ video {
 }
 
 .instruction a {
-    color: #065fd4; /* YouTube link blue */
+    color: #065fd4;
     text-decoration: none;
     display: block;
 }
@@ -118,7 +127,7 @@ video {
     width: 30px;
     height: 30px;
     border: 3px solid #e0e0e0;
-    border-top: 3px solid #ff0000; /* YouTube red */
+    border-top: 3px solid #ff0000;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -137,7 +146,7 @@ video {
 }
 
 .youtube-content input:focus {
-    border-color: #ff0000; /* YouTube red */
+    border-color: #ff0000;
 }
 
 #error-box.hidden {
@@ -146,13 +155,13 @@ video {
 
 .error-cross {
     display: block;
-    color: #606060; /* YouTube dark gray */
+    color: #606060;
     font-size: 32px;
     margin-bottom: 10px;
 }
 
 #error-box .youtube-content h2 {
-    color: #606060; /* YouTube dark gray for error */
+    color: #606060;
 }
 
 #error-box .youtube-content p {
@@ -160,7 +169,7 @@ video {
 }
 
 #error-box .instruction a {
-    color: #ff0000; /* YouTube red for retry link */
+    color: #ff0000;
 }
 
 #reference-link {
