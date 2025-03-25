@@ -1,0 +1,168 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#error-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #e8ecef; /* Light gray, BMC-like */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#redirect-box, #error-box {
+    background-color: #fff;
+    width: 450px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.remedy-header {
+    background-color: #003087; /* BMC blue */
+    color: #fff;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remedy-error-header {
+    background-color: #a30000; /* Dark red for error */
+}
+
+.remedy-logo {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.remedy-title {
+    font-size: 14px;
+}
+
+.remedy-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.remedy-content h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.remedy-content p {
+    color: #555;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: #d3d8de;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to right, #66b3ff, #003087); /* Light to dark BMC blue */
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+#progress-percentage {
+    color: #333;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.instruction {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.instruction a {
+    color: #0059d1; /* BMC link blue */
+    text-decoration: none;
+    display: block;
+}
+
+.instruction a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.spinner {
+    margin: 15px auto 0;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #d3d8de;
+    border-top: 3px solid #003087;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#error-box.hidden {
+    display: none;
+}
+
+.error-cross {
+    display: block;
+    color: #a30000; /* Dark red */
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+#error-box .remedy-content h2 {
+    color: #a30000; /* Dark red for error title */
+}
+
+#error-box .remedy-content p {
+    color: #4d0000; /* Darker red for text */
+}
+
+#error-box .instruction a {
+    color: #b30000; /* Slightly brighter red for link */
+}
+
+#reference-link {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    text-decoration: none;
+    z-index: 5;
+    display: none;
+}
+
+#reference-link:hover {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
