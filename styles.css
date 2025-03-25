@@ -3,6 +3,9 @@ body {
     padding: 0;
     overflow: hidden;
     font-family: 'Arial', sans-serif;
+    -webkit-user-select: none; /* Prevent text selection on iOS */
+    user-select: none; /* Prevent text selection */
+    touch-action: manipulation; /* Prevent double-tap zoom on mobile */
 }
 
 video {
@@ -30,6 +33,7 @@ video {
 #redirect-box, #error-box {
     background-color: #fff;
     width: 450px;
+    max-width: 90%; /* Responsive for smaller screens */
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
