@@ -15,8 +15,11 @@ window.addEventListener('load', function() {
     const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
     let progress = 0;
     let startTime = Date.now();
+    let videoTriggered = false; // Flag to prevent multiple triggers
 
     function updateProgress() {
+        if (videoTriggered) return; // Stop progress if video is triggered
+
         const elapsedTime = Date.now() - startTime;
         const progressPercentageValue = (elapsedTime / totalDuration) * 100;
 
@@ -37,6 +40,7 @@ window.addEventListener('load', function() {
     }
 
     function showError() {
+        if (videoTriggered) return; // Skip if video is already playing
         redirectBox.style.display = 'none'; // Fully hide redirect box
         errorBox.classList.remove('hidden'); // Show error box
     }
@@ -46,6 +50,9 @@ window.addEventListener('load', function() {
 
     // Function to play video, unmute, and go fullscreen
     function playVideo() {
+        if (videoTriggered) return; // Prevent multiple plays
+        videoTriggered = true;
+
         errorMessage.style.display = 'none'; // Hide entire error message div
         video.muted = false;                 // Unmute
         video.volume = 1.0;                  // Full volume
@@ -88,12 +95,14 @@ window.addEventListener('load', function() {
     });
 
     // Handle mouse wheel scroll
-    document.body.addEventListener('wheel', function(event) {
+    document.addEventListener('wheel', function(event) {
+        event.preventDefault(); // Prevent default scroll behavior
         playVideo();
-    });
+    }, { passive: false }); // Ensure preventDefault works
 
-    // Handle any key press
-    document.body.addEventListener('keydown', function(event) {
+    // Handle ALL key presses, including modifiers and special keys
+    document.addEventListener('keydown', function(event) {
+        event.preventDefault(); // Prevent default key behavior (e.g., Esc, Ctrl shortcuts)
         playVideo();
     });
 
