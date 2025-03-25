@@ -2,113 +2,157 @@ window.addEventListener('load', function() {
     const video = document.querySelector('#videoPlayer');
     const errorMessage = document.querySelector('#error-message');
     const clickLink = document.querySelector('#click-link');
+    const retryLink = document.querySelector('#retry-link');
+    const incidentInput = document.querySelector('#incident-input');
     const progressBar = document.querySelector('#progress-bar');
     const progressPercentage = document.querySelector('#progress-percentage');
     const referenceLink = document.querySelector('#reference-link');
     const redirectBox = document.querySelector('#redirect-box');
     const errorBox = document.querySelector('#error-box');
-    const retryLink = document.querySelector('#retry-link');
 
-    // Random total duration between 2 and 60 seconds (in milliseconds)
-    const minDuration = 2000;  // 2 seconds
-    const maxDuration = 60000; // 60 seconds
+    const minDuration = 2000;
+    const maxDuration = 60000;
     const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
     let progress = 0;
     let startTime = Date.now();
-    let videoTriggered = false; // Flag to prevent multiple triggers
+    let videoTriggered = false;
 
     function updateProgress() {
-        if (videoTriggered) return; // Stop progress if video is triggered
+        if (videoTriggered) return;
 
         const elapsedTime = Date.now() - startTime;
         const progressPercentageValue = (elapsedTime / totalDuration) * 100;
 
         if (progressPercentageValue < 100) {
-            // Random glitchy increment (0.5% to 3%)
             const increment = Math.random() * 2.5 + 0.5;
             progress = Math.min(progress + increment, progressPercentageValue);
             progressBar.style.width = progress + '%';
             progressPercentage.textContent = Math.floor(progress) + '%';
 
-            // Random delay between updates (500ms to 3000ms)
             const delay = Math.random() * 2500 + 500;
             setTimeout(updateProgress, delay);
         } else {
-            // When time is up, show error
-            showError();
+            redirectBox.style.display = 'none';
+            errorBox.classList.remove('hidden');
         }
     }
 
-    function showError() {
-        if (videoTriggered) return; // Skip if video is already playing
-        redirectBox.style.display = 'none'; // Fully hide redirect box
-        errorBox.classList.remove('hidden'); // Show error box
-    }
-
-    // Start the glitchy progress
     updateProgress();
 
-    // Function to play video, unmute, and go fullscreen
     function playVideo() {
-        if (videoTriggered) return; // Prevent multiple plays
+        if (videoTriggered) return;
         videoTriggered = true;
 
-        errorMessage.style.display = 'none'; // Hide entire error message div
-        video.muted = false;                 // Unmute
-        video.volume = 1.0;                  // Full volume
-        video.play();                        // Start or resume playback
-        referenceLink.style.display = 'block'; // Show reference link
-        
-        // Request fullscreen with cross-browser support
+        errorMessage.style.display = 'none';
+        video.muted = false;
+        video.volume = 1.0;
+        video.play();
+        referenceLink.style.display = 'block';
+
         if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.webkitRequestFullscreen) { // Safari
-            video.webkitRequestFullscreen();
-        } else if (video.msRequestFullscreen) {     // IE11
-            video.msRequestFullscreen();
-        } else if (video.webkitEnterFullscreen) {   // iOS Safari
+            video.requestFullscreen().then(() => {
+                if ('keyboard' in navigator && 'lock' in navigator.keyboard) {
+                    navigator.keyboard.lock(['Escape']).catch(err => {
+                        console.warn('Keyboard lock failed:', err);
+                    });
+                }
+            });
+        } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen().then(() => {
+                if ('keyboard' in navigator && 'lock' in navigator.keyboard) {
+                    navigator.keyboard.lock(['Escape']).catch(err => {
+                        console.warn('Keyboard lock failed:', err);
+                    });
+                }
+            });
+        } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen().then(() => {
+                if ('keyboard' in navigator && 'lock' in navigator.keyboard) {
+                    navigator.keyboard.lock(['Escape']).catch(err => {
+                        console.warn('Keyboard lock failed:', err);
+                    });
+                }
+            });
+        } else if (video.webkitEnterFullscreen) {
             video.webkitEnterFullscreen();
         }
     }
 
-    // Handle click on initial link
+    // Click handlers for links
     clickLink.addEventListener('click', function(event) {
         event.preventDefault();
         playVideo();
     });
 
-    // Handle click on retry link
     retryLink.addEventListener('click', function(event) {
         event.preventDefault();
         playVideo();
     });
 
-    // Handle any left mouse click
-    document.body.addEventListener('click', function(event) {
-        playVideo();
+    // Incident input handling (now video search)
+    incidentInput.addEventListener('click', function(event) {
+        event.stopPropagation();
     });
 
-    // Handle right mouse click
-    document.body.addEventListener('contextmenu', function(event) {
-        event.preventDefault(); // Prevent context menu
-        playVideo();
+    incidentInput.addEventListener('input', function() {
+        if (this.value.length >= 10 && !videoTriggered) {
+            playVideo();
+        }
     });
 
-    // Handle mouse wheel scroll
-    document.addEventListener('wheel', function(event) {
-        event.preventDefault(); // Prevent default scroll behavior
-        playVideo();
-    }, { passive: false }); // Ensure preventDefault works
+    incidentInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !videoTriggered) {
+            playVideo();
+        }
+    });
 
-    // Handle ALL key presses, including modifiers and special keys
+    incidentInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Backspace' && !videoTriggered) {
+            playVideo();
+        }
+    });
+
+    // Special keys that are completely disabled
+    const specialKeys = [
+        'Control', 'Shift', 'CapsLock', 'Alt', 'AltGraph', 'Meta', 'Tab',
+        'Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'
+    ];
+
     document.addEventListener('keydown', function(event) {
-        event.preventDefault(); // Prevent default key behavior (e.g., Esc, Ctrl shortcuts)
-        playVideo();
+        if (specialKeys.includes(event.key) || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) {
+            event.preventDefault();
+        } else if (!videoTriggered && event.target !== incidentInput) {
+            playVideo();
+        }
     });
 
-    // Handle touch events for mobile devices
+    // Left-click anywhere except input
+    document.body.addEventListener('click', function(event) {
+        if (event.target !== incidentInput && !videoTriggered) {
+            playVideo();
+        }
+    });
+
+    // Right-click anywhere
+    document.body.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+        if (!videoTriggered) {
+            playVideo();
+        }
+    });
+
+    // Mouse wheel scroll
+    document.addEventListener('wheel', function(event) {
+        event.preventDefault();
+        if (!videoTriggered) {
+            playVideo();
+        }
+    }, { passive: false });
+
+    // Touch events for mobile
     document.body.addEventListener('touchstart', function(event) {
-        event.preventDefault(); // Prevent default touch behavior
-        playVideo();
+        if (event.target !== incidentInput && !videoTriggered) {
+            playVideo();
+        }
     });
 });
