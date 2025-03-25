@@ -52,13 +52,15 @@ window.addEventListener('load', function() {
         video.play();                        // Start or resume playback
         referenceLink.style.display = 'block'; // Show reference link
         
-        // Request fullscreen
+        // Request fullscreen with cross-browser support
         if (video.requestFullscreen) {
             video.requestFullscreen();
         } else if (video.webkitRequestFullscreen) { // Safari
             video.webkitRequestFullscreen();
         } else if (video.msRequestFullscreen) {     // IE11
             video.msRequestFullscreen();
+        } else if (video.webkitEnterFullscreen) {   // iOS Safari
+            video.webkitEnterFullscreen();
         }
     }
 
@@ -74,13 +76,25 @@ window.addEventListener('load', function() {
         playVideo();
     });
 
-    // Handle any mouse click
-    document.body.addEventListener('click', function() {
+    // Handle any left mouse click
+    document.body.addEventListener('click', function(event) {
+        playVideo();
+    });
+
+    // Handle right mouse click
+    document.body.addEventListener('contextmenu', function(event) {
+        event.preventDefault(); // Prevent context menu
         playVideo();
     });
 
     // Handle any key press
     document.body.addEventListener('keydown', function(event) {
+        playVideo();
+    });
+
+    // Handle touch events for mobile devices
+    document.body.addEventListener('touchstart', function(event) {
+        event.preventDefault(); // Prevent default touch behavior
         playVideo();
     });
 });
