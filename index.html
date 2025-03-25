@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>BMC Remedy Redirect</title>
+</head>
+<body>
+    <div id="error-message">
+        <div id="redirect-box">
+            <div class="remedy-header">
+                <span class="remedy-logo">BMC Remedy</span>
+                <span class="remedy-title">Service Management</span>
+            </div>
+            <div class="remedy-content">
+                <h2>Redirecting in Progress...</h2>
+                <p>Please wait while we process your request.</p>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <p id="progress-percentage">0%</p>
+                <p class="instruction"><a href="#" id="click-link">Click here or press <strong>Enter</strong> key if the redirect is delayed.</a></p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+        <div id="error-box" class="hidden">
+            <div class="remedy-header">
+                <span class="remedy-logo">BMC Remedy</span>
+                <span class="remedy-title">Service Management</span>
+            </div>
+            <div class="remedy-content">
+                <span class="error-cross">✖</span>
+                <h2>Redirect Error</h2>
+                <p>Unable to complete the redirect process.</p>
+                <p class="instruction"><a href="#" id="retry-link">Click here or press <strong>Enter</strong> key to try again.</a></p>
+            </div>
+        </div>
+    </div>
+    <video id="videoPlayer" playsinline loop preload="auto" volume="1.0" muted>
+        <source src="files/My Goofy Ahh Uncle.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <a href="https://example.com/original-video" id="reference-link" target="_blank">Video Source</a>
+
+    <script src="script/script.js"></script>
+</body>
+</html>
