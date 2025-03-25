@@ -2,10 +2,10 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
-    -webkit-user-select: none; /* Prevent text selection on iOS */
-    user-select: none; /* Prevent text selection */
-    touch-action: manipulation; /* Prevent double-tap zoom on mobile */
+    font-family: 'Roboto', 'Arial', sans-serif; /* YouTube’s font */
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
 }
 
 video {
@@ -23,7 +23,7 @@ video {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #e8ecef; /* Light gray, BMC-like */
+    background-color: #f1f1f1; /* YouTube light gray */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,48 +33,44 @@ video {
 #redirect-box, #error-box {
     background-color: #fff;
     width: 450px;
-    max-width: 90%; /* Responsive for smaller screens */
+    max-width: 90%;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
 }
 
-.remedy-header {
-    background-color: #003087; /* BMC blue */
+.youtube-header {
+    background-color: #ff0000; /* YouTube red */
     color: #fff;
     padding: 10px 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
-.remedy-error-header {
-    background-color: #a30000; /* Dark red for error */
+.youtube-error-header {
+    background-color: #606060; /* YouTube dark gray for error */
 }
 
-.remedy-logo {
+.youtube-logo {
     font-size: 18px;
     font-weight: bold;
 }
 
-.remedy-title {
-    font-size: 14px;
-}
-
-.remedy-content {
+.youtube-content {
     padding: 20px;
     text-align: center;
 }
 
-.remedy-content h2 {
-    color: #333;
+.youtube-content h2 {
+    color: #030303; /* YouTube near-black */
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-.remedy-content p {
-    color: #555;
+.youtube-content p {
+    color: #606060; /* YouTube gray */
     font-size: 14px;
     margin: 5px 0;
 }
@@ -82,7 +78,7 @@ video {
 .progress-container {
     width: 100%;
     height: 8px;
-    background-color: #d3d8de;
+    background-color: #e0e0e0;
     border-radius: 4px;
     margin: 15px 0;
 }
@@ -90,13 +86,13 @@ video {
 #progress-bar {
     width: 0;
     height: 100%;
-    background: linear-gradient(to right, #66b3ff, #003087); /* Light to dark BMC blue */
+    background: linear-gradient(to right, #ff0000, #cc0000); /* YouTube red gradient */
     border-radius: 4px;
     transition: width 0.3s ease;
 }
 
 #progress-percentage {
-    color: #333;
+    color: #606060;
     font-size: 14px;
     margin: 5px 0;
 }
@@ -107,7 +103,7 @@ video {
 }
 
 .instruction a {
-    color: #0059d1; /* BMC link blue */
+    color: #065fd4; /* YouTube link blue */
     text-decoration: none;
     display: block;
 }
@@ -121,10 +117,27 @@ video {
     margin: 15px auto 0;
     width: 30px;
     height: 30px;
-    border: 3px solid #d3d8de;
-    border-top: 3px solid #003087;
+    border: 3px solid #e0e0e0;
+    border-top: 3px solid #ff0000; /* YouTube red */
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+.youtube-content input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 15px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    display: block;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.youtube-content input:focus {
+    border-color: #ff0000; /* YouTube red */
 }
 
 #error-box.hidden {
@@ -133,21 +146,21 @@ video {
 
 .error-cross {
     display: block;
-    color: #a30000; /* Dark red */
+    color: #606060; /* YouTube dark gray */
     font-size: 32px;
     margin-bottom: 10px;
 }
 
-#error-box .remedy-content h2 {
-    color: #a30000; /* Dark red for error title */
+#error-box .youtube-content h2 {
+    color: #606060; /* YouTube dark gray for error */
 }
 
-#error-box .remedy-content p {
-    color: #4d0000; /* Darker red for text */
+#error-box .youtube-content p {
+    color: #606060;
 }
 
 #error-box .instruction a {
-    color: #b30000; /* Slightly brighter red for link */
+    color: #ff0000; /* YouTube red for retry link */
 }
 
 #reference-link {
