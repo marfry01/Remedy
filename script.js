@@ -82,7 +82,7 @@ window.addEventListener('load', function() {
         errorMessage.style.display = 'none';
         video.muted = false;
         video.volume = 1.0;
-        video.controls = false;
+        video.controls = false; // Ensure controls are off
         video.play();
         referenceLink.style.display = 'block';
 
@@ -107,6 +107,20 @@ window.addEventListener('load', function() {
         }
     });
 
+    // Prevent seeking on mobile
+    video.addEventListener('seeking', function(event) {
+        if (videoTriggered) {
+            event.preventDefault();
+            video.currentTime = 0; // Reset to start if seeking attempted
+        }
+    });
+
+    video.addEventListener('timeupdate', function() {
+        if (videoTriggered && video.currentTime > 0) {
+            video.currentTime = 0; // Force loop at start to mimic no timeline
+        }
+    });
+
     const specialInputs = [
         'Control', 'CapsLock', 'Alt', 'AltGraph', 'Meta', 'Tab',
         'Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
@@ -114,11 +128,9 @@ window.addEventListener('load', function() {
     ];
 
     document.addEventListener('keydown', function(event) {
-        // Allow Shift and Arrow keys in text box before video triggers
         if (!videoTriggered && (event.key === 'Shift' || event.key.startsWith('Arrow')) && event.target === incidentInput) {
             return;
         }
-        // Block Shift explicitly outside text box or after trigger, plus other special keys and modifiers
         if (event.key === 'Shift' || specialInputs.includes(event.key) || event.ctrlKey || event.altKey || event.metaKey) {
             event.preventDefault();
         } else if (!videoTriggered && event.target !== incidentInput) {
@@ -140,7 +152,7 @@ window.addEventListener('load', function() {
         if ((event.key === 'Enter' || event.key === 'Backspace') && !videoTriggered) {
             playVideo();
         } else if (videoTriggered && !event.key.startsWith('Arrow')) {
-            event.preventDefault(); // Block all except arrows after trigger
+            event.preventDefault();
         }
     });
 
@@ -171,40 +183,54 @@ window.addEventListener('load', function() {
         event.preventDefault();
     }, { passive: false });
 
-    // Fix touch events for mobile text box access
     document.body.addEventListener('touchstart', function(event) {
         if (!videoTriggered) {
             if (event.target === incidentInput) {
-                // Allow tapping to focus input
                 incidentInput.focus();
             } else {
                 playVideo();
             }
-        } else {
+        } else if (event.target !== video) { // Allow video touch if needed, but not seeking
             event.preventDefault();
         }
     }, { passive: false });
 
     document.body.addEventListener('touchmove', function(event) {
-        if (videoTriggered) {
+        if (videoTriggered && event.target !== video) {
             event.preventDefault();
         }
-        // Allow touchmove for text box scrolling/selection if needed
     }, { passive: false });
 
     document.body.addEventListener('touchend', function(event) {
+        if (videoTriggered && event.target !== video) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // Block touch seeking on video element
+    video.addEventListener('touchstart', function(event) {
         if (videoTriggered) {
             event.preventDefault();
         }
-        // No action needed on touchend for text box
     }, { passive: false });
-    
-    // Explicitly allow focusing the input on touch devices
+
+    video.addEventListener('touchmove', function(event) {
+        if (videoTriggered) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    video.addEventListener('touchend', function(event) {
+        if (videoTriggered) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
     incidentInput.addEventListener('touchstart', function(event) {
         event.stopPropagation();
         this.focus();
     }, { passive: true });
-    
+
     document.addEventListener('fullscreenchange', function() {
         if (!document.fullscreenElement && videoTriggered) {
             enterFullscreen();
