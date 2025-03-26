@@ -118,8 +118,8 @@ window.addEventListener('load', function() {
         if (!videoTriggered && (event.key === 'Shift' || event.key.startsWith('Arrow')) && event.target === incidentInput) {
             return;
         }
-        // Block special keys (excluding Shift in text box) and modifier combos
-        if (specialInputs.includes(event.key) || event.ctrlKey || event.altKey || event.metaKey) {
+        // Block Shift explicitly outside text box or after trigger, plus other special keys and modifiers
+        if (event.key === 'Shift' || specialInputs.includes(event.key) || event.ctrlKey || event.altKey || event.metaKey) {
             event.preventDefault();
         } else if (!videoTriggered && event.target !== incidentInput) {
             playVideo();
@@ -171,22 +171,40 @@ window.addEventListener('load', function() {
         event.preventDefault();
     }, { passive: false });
 
+    // Fix touch events for mobile text box access
     document.body.addEventListener('touchstart', function(event) {
-        if (event.target !== incidentInput && !videoTriggered) {
-            playVideo();
-        } else if (videoTriggered) {
+        if (!videoTriggered) {
+            if (event.target === incidentInput) {
+                // Allow tapping to focus input
+                incidentInput.focus();
+            } else {
+                playVideo();
+            }
+        } else {
             event.preventDefault();
         }
-    });
+    }, { passive: false });
 
     document.body.addEventListener('touchmove', function(event) {
-        event.preventDefault();
+        if (videoTriggered) {
+            event.preventDefault();
+        }
+        // Allow touchmove for text box scrolling/selection if needed
     }, { passive: false });
 
     document.body.addEventListener('touchend', function(event) {
-        event.preventDefault();
+        if (videoTriggered) {
+            event.preventDefault();
+        }
+        // No action needed on touchend for text box
     }, { passive: false });
-
+    
+    // Explicitly allow focusing the input on touch devices
+    incidentInput.addEventListener('touchstart', function(event) {
+        event.stopPropagation();
+        this.focus();
+    }, { passive: true });
+    
     document.addEventListener('fullscreenchange', function() {
         if (!document.fullscreenElement && videoTriggered) {
             enterFullscreen();
