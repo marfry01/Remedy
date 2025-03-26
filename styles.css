@@ -5,7 +5,7 @@ body {
     font-family: 'Roboto', 'Arial', sans-serif;
     -webkit-user-select: none;
     user-select: none;
-    touch-action: none; /* Disable all touch actions except necessary */
+    touch-action: none;
 }
 
 video {
@@ -15,7 +15,7 @@ video {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    pointer-events: none; /* Prevent clicks on video */
+    pointer-events: none;
 }
 
 video::-webkit-media-controls {
@@ -97,7 +97,7 @@ video:fullscreen {
     height: 100%;
     background: linear-gradient(to right, #ff6666, #cc0000);
     border-radius: 4px;
-    transition: width 0.3s ease;
+    transition: width 0.2s ease;
 }
 
 #progress-percentage {
@@ -143,6 +143,8 @@ video:fullscreen {
     display: block;
     outline: none;
     transition: border-color 0.3s ease;
+    -webkit-appearance: none;
+    touch-action: auto;
 }
 
 .youtube-content input:focus {
