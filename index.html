@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="styles.css">
     <title>YouTube Video Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- YouTube-inspired favicon (red play button) -->
@@ -14,7 +14,7 @@
                 <span class="youtube-logo">YouTube</span>
             </div>
             <div class="youtube-content">
-                <h2>Searching for your video...</h2>
+                <h2>Searching for Video...</h2>
                 <p>Please wait while we find your content.</p>
                 <div class="progress-container">
                     <div id="progress-bar"></div>
@@ -30,19 +30,19 @@
             </div>
             <div class="youtube-content">
                 <span class="error-cross">✖</span>
-                <h2>Couldn’t find your video</h2>
+                <h2>Couldn’t Find Video</h2>
                 <p>Try searching for a video below:</p>
-                <input type="text" id="incident-input" placeholder="Search for a video">
+                <input type="text" id="incident-input" placeholder="Search YouTube">
                 <p class="instruction"><a href="#" id="retry-link">Click here or press <strong>Enter</strong> to retry.</a></p>
             </div>
         </div>
     </div>
-    <video id="videoPlayer" playsinline loop preload="auto" volume="1.0" muted>
-        <source src="My Goofy Ahh Uncle.mp4" type="video/mp4">
+    <video id="videoPlayer" playsinline loop preload="auto" volume="1.0" muted controls="false">
+        <source src="yourvideo.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <a href="https://www.youtube.com/watch?v=I8Rg1BjpzWc" id="reference-link" target="_blank">Video Source</a>
+    <a href="https://example.com/original-video" id="reference-link" target="_blank">Video Source</a>
 
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
